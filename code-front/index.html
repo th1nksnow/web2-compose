@@ -1,18 +1,22 @@
 <html>
 <body>
-The color of grass is <b id="result-box"></b>
+  <div align="center">
+    <h1>AMAZING Frontend</h1>
+    <p>Interesting content</p>
+    <h2>Database checkup: <strong id="database"></strong><h2>
+  </div>
 </body>
 </html>
 
 <script type="text/javascript">
-    let ajax = new XMLHttpRequest();
-    ajax.open('GET', 'api/getColor/grass', false);
-    ajax.send();
+  let db = new XMLHttpRequest();
+  db.open('GET', 'db', false)
+  db.send();
 
-    if (ajax.status !== 200) {
-        alert( ajax.status + ': ' + ajax.statusText );
-    } else {
-        let resultBox = document.getElementById("result-box");
-        resultBox.innerText = JSON.parse(ajax.responseText);
-    }
+  if (db.status !== 200) {
+    alert( db.status + ': ' + db.statusText );
+  } else {
+    let dataBox = document.getElementById("database");
+    dataBox.innerText = db.responseText;
+  }
 </script>

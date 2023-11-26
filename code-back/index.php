@@ -1,20 +1,15 @@
 <?php
 
-$path = explode('/', $_SERVER['REQUEST_URI']);
+ini_set('display_errors', 0);
 
-$function = $path[1];
-$arg = $path[2];
+$conn = mysqli_connect('mysql','root','root');
 
-echo json_encode($function($arg));
-
-function getColor(string $subject) {
-    if ($subject == 'grass') {
-        return 'green';
-    }
-    if ($subject == 'sky') {
-        return 'blue';
-    }
-    else {
-        return 'unknown';
-    }
+if (!$conn) {
+	die("Connection failed: " . mysqli_connect_error());
 }
+
+echo "Connected";
+
+$conn = null;
+
+?>

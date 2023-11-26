@@ -24,7 +24,8 @@ services:
       net:
         ipv4_address: 192.168.240.3
   php-back:
-    image: php:7.4-fpm
+    build:
+      context: ./docker/php
     restart: always
     links:
       - mysql
