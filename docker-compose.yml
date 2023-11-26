@@ -1,9 +1,12 @@
 services:
   nginx-front:
     image: nginx:1.17.8
+    restart: always
+    links:
+      - nginx-back
     volumes:
       - ./code-front:/code
-      - ./docker/nginx-front.conf:/etc/nginx/conf.d/nginx-front.conf
+      - ./docker/nginx/nginx-front.conf:/etc/nginx/conf.d/nginx-front.conf
     ports:
       - "81:80"
     networks:
@@ -11,19 +14,35 @@ services:
         ipv4_address: 192.168.240.2
   nginx-back:
     image: nginx:1.17.8
+    restart: always
+    links:
+      - php-back
     volumes:
       - ./code-back:/code
-      - ./docker/nginx-back.conf:/etc/nginx/conf.d/nginx-back.conf
+      - ./docker/nginx/nginx-back.conf:/etc/nginx/conf.d/nginx-back.conf
     networks:
       net:
         ipv4_address: 192.168.240.3
   php-back:
     image: php:7.4-fpm
+    restart: always
+    links:
+      - mysql
     volumes:
       - ./code-back:/code
     networks:
       net:
         ipv4_address: 192.168.240.4
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./docker/volume/mysql:/var/lib/mysql
+    networks:
+      net:
+        ipv4_address: 192.168.240.5
 networks:
   net:
     driver: bridge
